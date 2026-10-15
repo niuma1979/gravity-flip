@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05070f">
+<title>重力反转 GRAVITY FLIP</title>
+<!-- 分享卡片：微信/QQ 抓取不到 og:image 就退化为纯文字链接，所以这些标签是必需的 -->
+<meta name="description" content="一个键翻转重力的小游戏：天花板就是地板，12 关 + 三星挑战，打开即玩、无需下载。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="重力反转 GRAVITY FLIP">
+<meta property="og:description" content="按一下翻转重力，天花板就是地板 · 12 关三星挑战 · 打开就玩">
+<meta property="og:image" content="share-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta itemprop="name" content="重力反转 GRAVITY FLIP">
+<meta itemprop="image" content="share-card.png">
+<!--@STYLE@-->
+</head>
+<body>
+<header id="hud">
+  <div class="hud-item"><span class="hud-label">关卡</span><b id="level">1 / 12</b></div>
+  <div class="hud-item"><span class="hud-label">时间</span><b id="time">0.0</b></div>
+  <div class="hud-item"><span class="hud-label">翻转</span><b id="flips">0</b></div>
+  <div class="hud-item"><span class="hud-label">星星</span><b id="stars">0 / 3</b></div>
+  <p id="hint">←/→ 或 A/D 移动 · Space/↑/W 跳 · Z/↓/S 翻转重力 · P 暂停 · R 重开</p>
+</header>
+
+<main id="wrap">
+  <canvas id="game" width="1280" height="720"></canvas>
+  <div id="overlay" hidden>
+    <div class="overlay-card">
+      <h2 id="overlay-title">重力反转</h2>
+      <div id="overlay-body">准备就绪，点击开始。</div>
+      <div id="overlay-buttons"></div>
+    </div>
+  </div>
+</main>
+
+<nav id="pad" aria-label="触屏操作">
+  <button type="button" class="ctl" data-action="left" aria-label="向左移动">◀</button>
+  <button type="button" class="ctl" data-action="right" aria-label="向右移动">▶</button>
+  <button type="button" class="ctl" data-action="jump" aria-label="跳跃">跳</button>
+  <button type="button" class="ctl" data-action="flip" aria-label="翻转重力">翻转</button>
+</nav>
+
+<!--@BUNDLE@-->
+</body>
+</html>

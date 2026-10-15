@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-10-15T00:13:28.967Z",
+  "chrome": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "dist": "C:\\Users\\paqiu\\Documents\\deepseek-harness\\default-workspace\\gravity-flip\\dist\\gravity-flip.html",
+  "results": [
+    {
+      "name": "浏览器测试执行完成",
+      "ok": false,
+      "detail": "Chrome DevTools 端点未就绪"
+    }
+  ],
+  "failed": 1
+}

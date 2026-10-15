@@ -1,0 +1,301 @@
+/* GRAVITY FLIP — 霓虹赛博外壳样式
+   构建脚本 build.mjs 把本文件内容包进一个 style 元素，用于替换 index.html 里的样式占位符注释。
+   零外部请求：无字体文件、无图片、无外部样式导入语句。 */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --bg: #05070f;
+  --fg: #e8eefc;
+  --cyan: #22d3ee;
+  --magenta: #f472b6;
+  --yellow: #fde047;
+}
+
+html { height: 100%; -webkit-text-size-adjust: 100%; }
+
+body {
+  height:100dvh; margin:0; overflow:hidden; background:#05070f; color:#e8eefc;
+  font-family: system-ui,'Segoe UI',sans-serif; display:flex; flex-direction:column;
+}
+
+body {
+  background-image:
+    radial-gradient(120% 90% at 50% -10%, rgba(34,211,238,.10), transparent 60%),
+    radial-gradient(90% 80% at 110% 110%, rgba(244,114,182,.09), transparent 60%),
+    radial-gradient(70% 60% at -10% 110%, rgba(253,224,71,.05), transparent 60%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 老浏览器没有 dvh 单位时的兜底，避免出现滚动条 */
+@supports not (height: 100dvh) {
+  body { height: 100vh; }
+}
+
+/* ---------- 顶部 HUD（44–56px） ---------- */
+#hud {
+  flex: 0 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 14px;
+  overflow: hidden;
+  font-size: 13px;
+  letter-spacing: .02em;
+  border-bottom: 1px solid rgba(34,211,238,.22);
+  background: linear-gradient(180deg, rgba(34,211,238,.07), rgba(5,7,15,0));
+  box-shadow: 0 1px 0 rgba(244,114,182,.12), 0 10px 26px -18px rgba(34,211,238,.75);
+}
+
+.hud-item { flex: 0 0 auto; display: flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+.hud-label { color: #8fa3c8; font-size: 11px; letter-spacing: .14em; }
+#hud b { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+#level { color: var(--cyan);    text-shadow: 0 0 10px rgba(34,211,238,.65); }
+#time  { color: var(--yellow);  text-shadow: 0 0 10px rgba(253,224,71,.50); }
+#flips { color: var(--magenta); text-shadow: 0 0 10px rgba(244,114,182,.60); }
+#stars { color: var(--yellow);  text-shadow: 0 0 10px rgba(253,224,71,.55); }
+
+#hint {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 0 0 auto;
+  color: #7d8dab;
+  font-size: 12px;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- 舞台 ---------- */
+#wrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+}
+
+#game {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  display: block;
+  background: #080b16;
+  border: 1px solid rgba(34,211,238,.45);
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 1px rgba(34,211,238,.18),
+    0 0 22px rgba(34,211,238,.30),
+    0 0 64px rgba(244,114,182,.18),
+    inset 0 0 40px rgba(34,211,238,.06);
+  touch-action: none;
+}
+
+/* ---------- 覆盖层（默认 hidden） ---------- */
+#overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: radial-gradient(62% 62% at 50% 45%, rgba(5,7,15,.74), rgba(5,7,15,.93));
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+#overlay[hidden] { display: none; }
+
+.overlay-card {
+  width: min(92%, 460px);
+  max-height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 18px;
+  text-align: center;
+  border: 1px solid rgba(34,211,238,.5);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(11,16,28,.96), rgba(5,7,15,.97));
+  box-shadow: 0 0 30px rgba(34,211,238,.25), 0 0 80px rgba(244,114,182,.16);
+}
+
+#overlay-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: #eafcff;
+  text-shadow: 0 0 12px rgba(34,211,238,.8), 0 0 34px rgba(244,114,182,.5);
+}
+
+#overlay-body {
+  margin: 0;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #a9bada;
+  white-space: pre-line;
+}
+
+#overlay-buttons {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+#overlay-buttons button {
+  flex: 1 1 auto;
+  min-width: 108px;
+  min-height: 44px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #04121a;
+  background: linear-gradient(145deg, var(--cyan), #67e8f9);
+  border: 1px solid rgba(165,243,252,.8);
+  border-radius: 12px;
+  box-shadow: 0 0 16px rgba(34,211,238,.55);
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#overlay-buttons button + button {
+  color: #2a0716;
+  background: linear-gradient(145deg, var(--magenta), #f9a8d4);
+  border-color: rgba(249,168,212,.85);
+  box-shadow: 0 0 16px rgba(244,114,182,.5);
+}
+
+#overlay-buttons button:active {
+  transform: translateY(1px);
+  box-shadow: 0 0 28px rgba(34,211,238,.9);
+}
+
+/* ---------- 底部触屏控制条（桌面同样显示） ---------- */
+#pad {
+  flex: 0 0 auto;
+  height: 88px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(244,114,182,.20);
+  background: linear-gradient(0deg, rgba(244,114,182,.07), rgba(5,7,15,0));
+}
+
+.ctl {
+  min-width: 0;
+  min-height: 0;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: #dff6ff;
+  cursor: pointer;
+  border: 1px solid rgba(34,211,238,.42);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(34,211,238,.14), rgba(34,211,238,.05));
+  box-shadow: inset 0 0 0 1px rgba(5,7,15,.55), 0 6px 20px -10px rgba(34,211,238,.8);
+  transition: transform .06s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ctl:active,
+.ctl.is-active {
+  border-color: rgba(165,243,252,.9);
+  background: linear-gradient(180deg, rgba(34,211,238,.34), rgba(34,211,238,.16));
+  box-shadow: 0 0 18px rgba(34,211,238,.85), 0 0 44px rgba(34,211,238,.35);
+  transform: translateY(1px);
+}
+
+.ctl[data-action="jump"] {
+  color: #fff7d6;
+  border-color: rgba(253,224,71,.5);
+  background: linear-gradient(180deg, rgba(253,224,71,.14), rgba(253,224,71,.04));
+}
+
+.ctl[data-action="jump"]:active {
+  border-color: rgba(253,224,71,.95);
+  background: linear-gradient(180deg, rgba(253,224,71,.34), rgba(253,224,71,.14));
+  box-shadow: 0 0 18px rgba(253,224,71,.8), 0 0 44px rgba(253,224,71,.3);
+}
+
+/* flip 是核心机制：视觉最突出 */
+.ctl[data-action="flip"] {
+  font-size: 19px;
+  font-weight: 900;
+  color: #0a0512;
+  text-shadow: 0 1px 0 rgba(255,255,255,.35);
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: 16px;
+  background: linear-gradient(145deg, var(--magenta), var(--cyan));
+  box-shadow:
+    0 0 0 1px rgba(244,114,182,.55),
+    0 0 22px rgba(34,211,238,.75),
+    0 0 48px rgba(244,114,182,.50);
+  animation: flipPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes flipPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba(244,114,182,.55), 0 0 18px rgba(34,211,238,.60), 0 0 36px rgba(244,114,182,.35);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(244,114,182,.90), 0 0 30px rgba(34,211,238,.95), 0 0 64px rgba(244,114,182,.70);
+  }
+}
+
+.ctl[data-action="flip"]:active {
+  background: linear-gradient(145deg, #67e8f9, var(--magenta));
+  box-shadow: 0 0 34px rgba(34,211,238,.95), 0 0 70px rgba(244,114,182,.8);
+  transform: translateY(1px) scale(.98);
+}
+
+.ctl:focus-visible,
+#overlay-buttons button:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+/* ---------- 小屏 / 矮屏 ---------- */
+@media (max-width: 560px) {
+  #hud { height: 44px; gap: 10px; padding: 0 10px; }
+  #hint { font-size: 11px; letter-spacing: 0; }
+  .hud-label { display: none; }
+  #pad { height: 76px; gap: 8px; padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px)); }
+  .ctl { font-size: 15px; border-radius: 12px; }
+  .ctl[data-action="flip"] { font-size: 17px; }
+  #overlay-title { font-size: 22px; }
+}
+
+@media (max-height: 560px) {
+  #hud { height: 44px; }
+  #pad { height: 72px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctl[data-action="flip"] { animation: none; }
+  .ctl { transition: none; }
+}

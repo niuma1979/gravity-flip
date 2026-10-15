@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-10-15T00:17:49.883Z",
+  "failures": 2,
+  "report": [
+    {
+      "id": 8,
+      "ok": true,
+      "flips": 0,
+      "time": 4.65,
+      "deaths": 0,
+      "parFlips": 5,
+      "parTime": 12,
+      "timeOk": true,
+      "flipOk": true,
+      "flipEarned": false,
+      "macroSteps": 9
+    }
+  ]
+}

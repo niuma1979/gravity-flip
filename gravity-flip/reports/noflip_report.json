@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-10-15T00:21:42.367Z",
+  "noFlipProbe": {
+    "1": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    },
+    "2": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    },
+    "3": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    },
+    "4": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    },
+    "5": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    },
+    "6": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    },
+    "7": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    },
+    "8": {
+      "ok": true,
+      "flips": 0,
+      "time": 4.65
+    },
+    "9": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    },
+    "10": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    },
+    "11": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    },
+    "12": {
+      "ok": false,
+      "flips": null,
+      "time": null
+    }
+  }
+}
